@@ -2,4 +2,7 @@
 .settings
 .project
 
+screenshot*.png
+
+/logs
 /target

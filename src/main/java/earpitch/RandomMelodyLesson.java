@@ -15,7 +15,7 @@ public class RandomMelodyLesson implements Lesson {
 	}
 
 	@Override
-	public Challenge nextChallenge() {
+	public MelodyChallenge nextChallenge() {
 		Random random = new Random();
 		Pitch[] notes = Pitch.values();
 		Pitch[] melody = Stream.generate(() -> notes[random.nextInt(notes.length)]).limit(length).toArray(Pitch[]::new);

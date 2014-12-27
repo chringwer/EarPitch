@@ -40,8 +40,24 @@
 			<scope>system</scope>
 			<systemPath>${java.home}/lib/ext/jfxrt.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>14.0.1</version>
+		</dependency>
 
 		<!-- TEST -->
+		<dependency>
+			<groupId>org.loadui</groupId>
+			<artifactId>testFx</artifactId>
+			<version>3.1.2</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

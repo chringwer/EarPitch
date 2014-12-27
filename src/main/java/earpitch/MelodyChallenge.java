@@ -9,7 +9,7 @@ public class MelodyChallenge implements Challenge {
 	private List<Part> parts;
 	private Iterator<Part> iterator;
 
-	public MelodyChallenge(Note... notes) {
+	public MelodyChallenge(Pitch... notes) {
 		parts = Arrays.stream(notes).map((note) -> new ChallengePart(note)).collect(Collectors.toList());
 		iterator = parts.iterator();
 	}

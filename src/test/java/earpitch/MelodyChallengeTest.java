@@ -10,7 +10,7 @@ import earpitch.Challenge.Part;
 public class MelodyChallengeTest {
 	@Test
 	public void hasNextElementIfItemsLeft() {
-		assertThat(melody(Note.C4).hasNext(), is(true));
+		assertThat(melody(Pitch.C4).hasNext(), is(true));
 	}
 
 	@Test
@@ -20,19 +20,19 @@ public class MelodyChallengeTest {
 
 	@Test
 	public void returnElementsInSequence() {
-		Challenge challenge = melody(Note.E4, Note.D4, Note.C4);
-		assertThat(challenge.next().get(), is(Note.E4));
-		assertThat(challenge.next().get(), is(Note.D4));
-		assertThat(challenge.next().get(), is(Note.C4));
+		Challenge challenge = melody(Pitch.E4, Pitch.D4, Pitch.C4);
+		assertThat(challenge.next().get(), is(Pitch.E4));
+		assertThat(challenge.next().get(), is(Pitch.D4));
+		assertThat(challenge.next().get(), is(Pitch.C4));
 	}
 
 	@Test
 	public void returnFirstElement() {
-		Part firstPart = melody(Note.D4).next();
-		assertThat(firstPart.get(), is(Note.D4));
+		Part firstPart = melody(Pitch.D4).next();
+		assertThat(firstPart.get(), is(Pitch.D4));
 	}
 
-	private Challenge melody(Note... notes) {
+	private Challenge melody(Pitch... notes) {
 		return new MelodyChallenge(notes);
 	}
 }

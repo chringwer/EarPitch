@@ -1,14 +1,14 @@
 package earpitch;
 
 public class ChallengePart implements Challenge.Part {
-	private Note note;
+	private Pitch note;
 
-	public ChallengePart(Note note) {
+	public ChallengePart(Pitch note) {
 		this.note = note;
 	}
 
 	@Override
-	public Note get() {
+	public Pitch get() {
 		return note;
 	}
 

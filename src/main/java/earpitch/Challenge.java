@@ -2,7 +2,7 @@ package earpitch;
 
 public interface Challenge {
 	public interface Part {
-		Note get();
+		Pitch get();
 	}
 
 	boolean hasNext();

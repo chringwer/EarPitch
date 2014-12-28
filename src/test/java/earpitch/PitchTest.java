@@ -19,4 +19,13 @@ public class PitchTest {
 		assertThat(Pitch.Db4.isSharp(), is(false));
 		assertThat(Pitch.C4.isSharp(), is(false));
 	}
+
+	@Test
+	public void isMappedToMidiNote() {
+		assertThat(Pitch.A3.toMidiNote(), is(45));
+		assertThat(Pitch.C4.toMidiNote(), is(48));
+		assertThat(Pitch.C5.toMidiNote(), is(60));
+		assertThat(Pitch.C$5.toMidiNote(), is(61));
+		assertThat(Pitch.Db5.toMidiNote(), is(61));
+	}
 }

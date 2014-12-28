@@ -28,4 +28,11 @@ public class PitchTest {
 		assertThat(Pitch.C$5.toMidiNote(), is(61));
 		assertThat(Pitch.Db5.toMidiNote(), is(61));
 	}
+
+	@Test
+	public void prettyPrinted() {
+		assertThat(Pitch.C$5.prettyPrinted(), is("C#"));
+		assertThat(Pitch.Bb3.prettyPrinted(), is("Bb"));
+		assertThat(Pitch.G4.prettyPrinted(), is("G"));
+	}
 }

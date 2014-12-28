@@ -29,6 +29,10 @@ public enum Pitch {
 		return name().indexOf('$') > 0;
 	}
 
+	public String prettyPrinted() {
+		return name().replace('$', '#').replaceAll("[0-9]", "");
+	}
+
 	public int toMidiNote() {
 		return midi;
 	}

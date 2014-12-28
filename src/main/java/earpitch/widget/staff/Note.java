@@ -42,7 +42,7 @@ public class Note extends StackPane {
 	}
 
 	private void addLabel() {
-		Label name = new Label(pitch.name());
+		Label name = new Label(pitch.prettyPrinted());
 		name.setTranslateY(150);
 		name.setFont(Font.font(10));
 		getChildren().add(name);

@@ -29,8 +29,8 @@ public class EarPitch extends Application {
 		Scene scene = new Scene(pane);
 		stage.setScene(scene);
 
-		stage.setWidth(800);
-		stage.setHeight(600);
+		stage.setWidth(1024);
+		stage.setHeight(800);
 
 		stage.show();
 	}

@@ -11,6 +11,7 @@ public class Staff extends HBox {
 	private final SymbolFactory symbolFactory;
 	private ObservableList<Node> container;
 	private int cursor = 0;
+	private int size;
 
 	public Staff(int size) {
 		this(new SymbolFactory(), size);
@@ -18,6 +19,7 @@ public class Staff extends HBox {
 
 	public Staff(SymbolFactory symbolFactory, int size) {
 		this.symbolFactory = symbolFactory;
+		this.size = size;
 
 		setAlignment(Pos.CENTER);
 
@@ -76,6 +78,10 @@ public class Staff extends HBox {
 	}
 
 	private void insert(Node element) {
+		if (cursor >= size) {
+			clear();
+		}
+
 		container.remove(cursor);
 		container.add(cursor, element);
 		cursor++;

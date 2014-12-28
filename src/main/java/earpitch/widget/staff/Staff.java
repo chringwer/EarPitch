@@ -9,9 +9,7 @@ import earpitch.Pitch;
 
 public class Staff extends HBox {
 	private final SymbolFactory symbolFactory;
-
 	private ObservableList<Node> container;
-
 	private int cursor = 0;
 
 	public Staff(int size) {

@@ -5,6 +5,7 @@
 <?import earpitch.widget.staff.Staff?>
 <?import earpitch.widget.keyboard.Keyboard?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
 
 <Scene xmlns:fx="http://javafx.com/fxml">
 	<BorderPane>
@@ -14,5 +15,8 @@
 				<Keyboard fx:id="keyboard" />			
 			</VBox>
 		</center>
+		<right>
+			<Button fx:id="playButton" text="Play" onAction="#play"/>
+		</right>
 	</BorderPane>
 </Scene>

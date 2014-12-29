@@ -15,6 +15,11 @@ public class MelodyChallenge implements Challenge {
 	}
 
 	@Override
+	public List<Pitch> getPitches() {
+		return parts.stream().map(Part::get).collect(Collectors.toList());
+	}
+
+	@Override
 	public boolean hasNext() {
 		return iterator.hasNext();
 	}

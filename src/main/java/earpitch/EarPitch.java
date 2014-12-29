@@ -1,11 +1,8 @@
 package earpitch;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import earpitch.view.MelodyChallengeView;
+import earpitch.scene.Training;
 
 public class EarPitch extends Application {
 	public static void main(String[] args) {
@@ -14,20 +11,9 @@ public class EarPitch extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		RandomMelodyLesson lesson = new RandomMelodyLesson(4);
+		stage.setTitle("EarPitch");
 
-		MelodyChallengeView view = new MelodyChallengeView();
-		view.setChallenge(lesson.nextChallenge());
-
-		Button button = new Button("Refresh");
-		button.setOnAction((e) -> view.setChallenge(lesson.nextChallenge()));
-
-		BorderPane pane = new BorderPane();
-		pane.setCenter(view);
-		pane.setBottom(button);
-
-		Scene scene = new Scene(pane);
-		stage.setScene(scene);
+		stage.setScene(Training.createScene());
 
 		stage.setWidth(1024);
 		stage.setHeight(800);

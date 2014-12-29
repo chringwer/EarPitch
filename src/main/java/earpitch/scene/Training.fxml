@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Scene?>
+<?import javafx.scene.layout.BorderPane?>
+<?import earpitch.widget.staff.Staff?>
+<?import earpitch.widget.keyboard.Keyboard?>
+<?import javafx.scene.layout.VBox?>
+
+<Scene xmlns:fx="http://javafx.com/fxml">
+	<BorderPane>
+		<center>
+			<VBox alignment="TOP_CENTER">
+				<Staff fx:id="staff" />
+				<Keyboard fx:id="keyboard" />			
+			</VBox>
+		</center>
+	</BorderPane>
+</Scene>

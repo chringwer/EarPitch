@@ -13,6 +13,10 @@ public class Staff extends HBox {
 	private int cursor = 0;
 	private int size;
 
+	public Staff() {
+		this(4);
+	}
+
 	public Staff(int size) {
 		this(new SymbolFactory(), size);
 	}

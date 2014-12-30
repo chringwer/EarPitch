@@ -1,4 +1,4 @@
-package earpitch.scene;
+package earpitch.gui;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -10,7 +10,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import earpitch.Challenge;
-import earpitch.RandomMelodyLesson;
+import earpitch.Pitch;
+import earpitch.Trainer;
 import earpitch.sound.Speaker;
 import earpitch.util.LayoutUtil;
 import earpitch.widget.keyboard.Keyboard;
@@ -25,25 +26,39 @@ public class Training implements Initializable {
     private @FXML Staff staff;
     private @FXML Keyboard keyboard;
     private @FXML Button playButton;
-    private Challenge challenge;
     private Speaker speaker;
+    private Trainer trainer;
+    private Challenge challenge;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        challenge = new RandomMelodyLesson(4).nextChallenge();
+        trainer = new Trainer();
         speaker = new Speaker();
+        challenge = trainer.nextChallenge();
 
-        for (Challenge.Part part : challenge) {
-            staff.addNote(part.get());
-        }
-
-        keyboard.addEventHandler(NoteEvent.PLAYED, note -> staff.addNote(note.getPitch()));
+        keyboard.addEventHandler(NoteEvent.PLAYED, note -> {
+            CompletableFuture.runAsync(() -> speaker.play(note.getPitch()));
+            process(note.getPitch());
+        });
     }
 
     @FXML
     public void play() {
         playButton.setDisable(true);
-        CompletableFuture.runAsync(() -> speaker.play(challenge.getPitches()))
+        CompletableFuture.runAsync(() -> challenge.outputTo(speaker))
                          .thenRun(() -> Platform.runLater(() -> playButton.setDisable(false)));
+    }
+
+    public void process(Pitch pitch) {
+        boolean matched = challenge.advanceIfMatches(pitch);
+
+        if (matched) {
+            staff.addNote(pitch);
+        }
+
+        if (challenge.isSolved()) {
+            challenge = trainer.nextChallenge();
+            staff.clear();
+        }
     }
 }

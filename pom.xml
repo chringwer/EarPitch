@@ -37,7 +37,7 @@
 				<artifactId>javafx-maven-plugin</artifactId>
 				<version>8.1.2</version>
 				<configuration>
-					<mainClass>earpitch.EarPitch</mainClass>
+					<mainClass>earpitch.gui.EarPitch</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>

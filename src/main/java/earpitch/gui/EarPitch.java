@@ -1,8 +1,7 @@
-package earpitch;
+package earpitch.gui;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import earpitch.scene.Training;
 
 public class EarPitch extends Application {
 	public static void main(String[] args) {

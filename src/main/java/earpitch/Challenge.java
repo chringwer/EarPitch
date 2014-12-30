@@ -1,25 +1,39 @@
 package earpitch;
 
-import java.util.Iterator;
-import java.util.List;
+import earpitch.sound.Speaker;
 
-import earpitch.Challenge.Part;
+public class Challenge {
+    private Pitch[] melody;
+    private int cursor;
 
-public interface Challenge extends Iterable<Part>, Iterator<Part> {
-	public interface Part {
-		Pitch get();
-	}
+    public Challenge(Pitch... melody) {
+        this.melody = melody;
+        cursor = 0;
+    }
 
-	public List<Pitch> getPitches();
+    public boolean advanceIfMatches(Pitch pitch) {
+        if (isSolved()) {
+            throw new IllegalStateException("Already been solved.");
+        }
 
-	@Override
-	default public Iterator<Part> iterator() {
-		return this;
-	}
+        boolean matches = melody[cursor].isSameTone(pitch);
 
-	@Override
-	boolean hasNext();
+        if (matches) {
+            cursor++;
+        }
 
-	@Override
-	Part next();
+        return matches;
+    }
+
+    public Pitch getExpected() {
+        return melody[cursor];
+    }
+
+    public boolean isSolved() {
+        return cursor == melody.length;
+    }
+
+    public void outputTo(Speaker speaker) {
+        speaker.play(melody);
+    }
 }

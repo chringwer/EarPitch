@@ -1,72 +1,64 @@
 package earpitch.widget.staff;
 
-import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import earpitch.Pitch;
 
 public class Note extends StackPane {
-	private SymbolFactory symbols;
-	private Pitch pitch;
-	private Slot slot;
+    private SymbolFactory symbols;
+    private Pitch pitch;
+    private Slot slot;
 
-	public Note(Pitch note) {
-		this(new SymbolFactory(), note);
-	}
+    public Note(Pitch note) {
+        this(new SymbolFactory(), note);
+    }
 
-	public Note(SymbolFactory symbols, Pitch pitch) {
-		this.symbols = symbols;
-		this.pitch = pitch;
-		slot = Slot.at(pitch);
+    public Note(SymbolFactory symbols, Pitch pitch) {
+        this.symbols = symbols;
+        this.pitch = pitch;
+        slot = Slot.at(pitch);
+        setMinHeight(symbols.getFontSize() * 2.5);
 
-		double translateX = hasAccidentals() ? symbols.getFontSize() * 0.2 : 0;
+        double translateX = hasAccidentals() ? symbols.getFontSize() * 0.2 : 0;
 
-		addStaves(translateX);
-		addNote(translateX);
-		addAccidentals(translateX);
-		addLabel();
-	}
+        addStaves(translateX);
+        addNote(translateX);
+        addAccidentals(translateX);
+    }
 
-	@Override
-	public String toString() {
-		return pitch.name();
-	}
+    @Override
+    public String toString() {
+        return pitch.name();
+    }
 
-	private void addAccidentals(double translateX) {
-		if (hasAccidentals()) {
-			Label accidental = pitch.isSharp() ? symbols.createSharp() : symbols.createFlat();
-			accidental.setTranslateX(-translateX);
-			slot.moveToSlot(accidental);
-			getChildren().add(accidental);
-		}
-	}
+    private void addAccidentals(double translateX) {
+        if (hasAccidentals()) {
+            Text accidental = pitch.isSharp() ? symbols.createSharp() : symbols.createFlat();
+            accidental.setTranslateX(-translateX);
+            slot.moveToSlot(accidental);
+            getChildren().add(accidental);
+        }
+    }
 
-	private void addLabel() {
-		Label name = new Label(pitch.prettyPrinted());
-		name.setTranslateY(150);
-		name.setFont(Font.font(10));
-		getChildren().add(name);
-	}
+    private void addNote(double translateX) {
+        Text notehead = symbols.createNote(slot.isUpperHalf());
+        notehead.setTranslateX(translateX);
+        slot.moveToSlot(notehead);
+        getChildren().add(notehead);
+    }
 
-	private void addNote(double translateX) {
-		Label notehead = symbols.createNote(slot.isUpperHalf());
-		notehead.setTranslateX(translateX);
-		slot.moveToSlot(notehead);
-		getChildren().add(notehead);
-	}
+    private void addStaves(double translateX) {
+        getChildren().add(symbols.createStaves());
 
-	private void addStaves(double translateX) {
-		getChildren().add(symbols.createStaves());
+        for (Slot each : slot.findSlotsForMissingStaves()) {
+            Text stave = symbols.createSingleStave();
+            each.moveToSlot(stave);
+            stave.setTranslateX(translateX);
+            getChildren().add(stave);
+        }
+    }
 
-		for (Slot each : slot.findSlotsForMissingStaves()) {
-			Label stave = symbols.createSingleStave();
-			each.moveToSlot(stave);
-			stave.setTranslateX(translateX);
-			getChildren().add(stave);
-		}
-	}
-
-	private boolean hasAccidentals() {
-		return pitch.isSharp() || pitch.isFlat();
-	}
+    private boolean hasAccidentals() {
+        return pitch.isSharp() || pitch.isFlat();
+    }
 }

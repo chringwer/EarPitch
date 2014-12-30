@@ -26,9 +26,20 @@ public class Training implements Initializable {
     private @FXML Staff staff;
     private @FXML Keyboard keyboard;
     private @FXML Button playButton;
+    private @FXML Button hintButton;
+
     private Speaker speaker;
     private Trainer trainer;
     private Challenge challenge;
+
+    @FXML
+    public void hint() {
+        if (challenge.isSolved()) {
+            challenge = trainer.nextChallenge();
+        }
+
+        process(challenge.getExpected());
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -50,15 +61,14 @@ public class Training implements Initializable {
     }
 
     public void process(Pitch pitch) {
+        if (challenge.isSolved()) {
+            challenge = trainer.nextChallenge();
+        }
+
         boolean matched = challenge.advanceIfMatches(pitch);
 
         if (matched) {
             staff.addNote(pitch);
-        }
-
-        if (challenge.isSolved()) {
-            challenge = trainer.nextChallenge();
-            staff.clear();
         }
     }
 }

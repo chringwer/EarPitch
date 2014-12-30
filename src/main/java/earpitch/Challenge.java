@@ -26,6 +26,10 @@ public class Challenge {
     }
 
     public Pitch getExpected() {
+        if (cursor >= melody.length) {
+            return null;
+        }
+
         return melody[cursor];
     }
 

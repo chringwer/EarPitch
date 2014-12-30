@@ -1,0 +1,20 @@
+#header, #footer {
+	-fx-background-color: white;
+    -fx-padding: 1.5em;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-spacing: 1em;
+}
+
+#main {
+    -fx-spacing: 2em;
+}
+
+Button {
+    -fx-font-size: 14pt;
+}
+
+#logo {
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-font-size: 16pt;
+}

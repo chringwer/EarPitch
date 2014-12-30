@@ -4,113 +4,116 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 
-import javafx.scene.control.Label;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
 
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 
 public class SymbolFactory {
-	static final int STAVE = 0xE010;
-	static final int STAVES = 0xE01A;
-	static final int STEM = 0xE210;
-	static final int NARROW_STAVES = 0xE020;
-	static final int NOTE_DOWN = 0xE1D6;
-	static final int NOTE_UP = 0xE1D5;
-	static final int ACCIDENTAL_SHARP = 0xE262;
-	static final int ACCIDENTAL_FLAT = 0xE260;
-	static final int BARLINE_START = 0xE034;
-	static final int BARLINE_END = 0xE034;
-	static final int CLEF = 0xE050;
+    static final int STAVE = 0xE010;
+    static final int STAVES = 0xE01A;
+    static final int STEM = 0xE210;
+    static final int NARROW_STAVES = 0xE020;
+    static final int NOTE_DOWN = 0xE1D6;
+    static final int NOTE_UP = 0xE1D5;
+    static final int ACCIDENTAL_SHARP = 0xE262;
+    static final int ACCIDENTAL_FLAT = 0xE260;
+    static final int BARLINE_START = 0xE034;
+    static final int BARLINE_END = 0xE034;
+    static final int CLEF = 0xE050;
 
-	private final Font font;
-	private final Object metadata;
+    private final Font font;
+    private final Object metadata;
 
-	public SymbolFactory() {
-		metadata = parseFontMetadata();
-		font = loadFont("bravura/otf/Bravura.otf", 80);
-	}
+    public SymbolFactory() {
+        metadata = parseFontMetadata();
+        font = loadFont("bravura/otf/Bravura.otf", 80);
+    }
 
-	public Label createBarlineEnd() {
-		return makeLabel(BARLINE_END);
-	}
+    public Text createBarlineEnd() {
+        return makeText(BARLINE_END);
+    }
 
-	public Label createBarlineStart() {
-		return makeLabel(BARLINE_START);
-	}
+    public Text createBarlineStart() {
+        return makeText(BARLINE_START);
+    }
 
-	public Label createClef() {
-		Label clef = makeLabel(CLEF);
-		clef.setTranslateY(-font.getSize() / 4);
-		return clef;
-	}
+    public Text createClef() {
+        return makeText(CLEF);
+    }
 
-	public Label createFlat() {
-		return makeLabel(ACCIDENTAL_FLAT);
-	}
+    public Text createFlat() {
+        return makeText(ACCIDENTAL_FLAT);
+    }
 
-	public Label createNarrowStaves() {
-		return makeLabel(NARROW_STAVES);
-	}
+    public Text createNarrowStaves() {
+        return makeText(NARROW_STAVES);
+    }
 
-	public Label createNote(boolean isUpperHalf) {
-		return makeLabel(isUpperHalf ? NOTE_DOWN : NOTE_UP);
-	}
+    public Text createNote(boolean isUpperHalf) {
+        Text note = makeText(isUpperHalf ? NOTE_DOWN : NOTE_UP);
+        double offset = 3 * font.getSize() / 8;
+        double origin = note.getTranslateY();
+        note.setTranslateY(origin + (isUpperHalf ? offset : -offset));
+        return note;
+    }
 
-	public Label createSharp() {
-		return makeLabel(ACCIDENTAL_SHARP);
-	}
+    public Text createSharp() {
+        return makeText(ACCIDENTAL_SHARP);
+    }
 
-	public Label createSingleStave() {
-		Label stave = makeLabel(STAVE);
-		stave.setTranslateY(2 * font.getSize() / 4);
-		return stave;
-	}
+    public Text createSingleStave() {
+        return makeText(STAVE);
+    }
 
-	public Label createStaves() {
-		return makeLabel(STAVES);
-	}
+    public Text createStaves() {
+        return makeText(STAVES);
+    }
 
-	public Label createStem() {
-		return makeLabel(STEM);
-	}
+    public Text createStem() {
+        return makeText(STEM);
+    }
 
-	public double getFontSize() {
-		return font.getSize();
-	}
+    public double getFontSize() {
+        return font.getSize();
+    }
 
-	protected Label makeLabel(String symbol) {
-		Label label = new Label(symbol);
-		label.setFont(font);
-		return label;
-	}
+    protected Text makeText(String symbol) {
+        Text text = new Text(symbol);
+        text.setFont(font);
+        text.setBoundsType(TextBoundsType.VISUAL);
+        text.setTranslateY(-font.getSize() * 0.05);
+        return text;
+    }
 
-	private Font loadFont(String path, int size) {
-		ClassLoader classLoader = SymbolFactory.class.getClassLoader();
-		URL url = classLoader.getResource("fonts/" + path);
-		return Font.loadFont(url.toExternalForm(), size);
-	}
+    private Font loadFont(String path, int size) {
+        ClassLoader classLoader = SymbolFactory.class.getClassLoader();
+        URL url = classLoader.getResource("fonts/" + path);
+        return Font.loadFont(url.toExternalForm(), size);
+    }
 
-	@SuppressWarnings("unused")
-	private String lookup(String name) {
-		String jsonPath = "$..glyphs[?(@.name == '" + name + "')].codepoint";
-		List<String> matches = JsonPath.read(metadata, jsonPath);
+    @SuppressWarnings("unused")
+    private String lookup(String name) {
+        String jsonPath = "$..glyphs[?(@.name == '" + name + "')].codepoint";
+        List<String> matches = JsonPath.read(metadata, jsonPath);
 
-		if (matches.isEmpty()) {
-			throw new IllegalArgumentException("font metadata did not contain a glyph named " + name);
-		}
+        if (matches.isEmpty()) {
+            throw new IllegalArgumentException("font metadata did not contain a glyph named " + name);
+        }
 
-		char symbol = (char) Integer.parseInt(matches.get(0).substring(2), 16);
-		return Character.toString(symbol);
-	}
+        char symbol = (char) Integer.parseInt(matches.get(0).substring(2), 16);
+        return Character.toString(symbol);
+    }
 
-	private Label makeLabel(int codepoint) {
-		return makeLabel(Character.toString((char) codepoint));
-	}
+    private Text makeText(int codepoint) {
+        return makeText(Character.toString((char) codepoint));
+    }
 
-	private Object parseFontMetadata() {
-		ClassLoader classLoader = SymbolFactory.class.getClassLoader();
-		InputStream is = classLoader.getResourceAsStream("fonts/bravura/bravura_metadata.json");
-		return Configuration.defaultConfiguration().jsonProvider().parse(is, "utf8");
-	}
+    private Object parseFontMetadata() {
+        ClassLoader classLoader = SymbolFactory.class.getClassLoader();
+        InputStream is = classLoader.getResourceAsStream("fonts/bravura/bravura_metadata.json");
+        return Configuration.defaultConfiguration().jsonProvider().parse(is, "utf8");
+    }
 }

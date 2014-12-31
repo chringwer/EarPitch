@@ -41,7 +41,7 @@ public class Staff extends HBox {
     public void clear() {
         cursor = 0;
         for (int i = 0; i < container.size(); i++) {
-            insert(new StackPane(symbolFactory.createStaves()));
+            insert(createPlaceholder());
         }
         cursor = 0;
     }
@@ -59,10 +59,14 @@ public class Staff extends HBox {
         return new HBox() {
             {
                 for (int i = 0; i < size; i++) {
-                    getChildren().add(new StackPane(symbolFactory.createStaves()));
+                    getChildren().add(createPlaceholder());
                 }
             }
         };
+    }
+
+    private StackPane createPlaceholder() {
+        return new StackPane(symbolFactory.createStaves());
     }
 
     private Node createStartSymbol() {

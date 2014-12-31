@@ -45,7 +45,9 @@ public class SymbolFactory {
     }
 
     public Text createFlat() {
-        return makeText(ACCIDENTAL_FLAT);
+        Text flat = makeText(ACCIDENTAL_FLAT);
+        flat.setTranslateY(-1.5 * getLineHeight());
+        return flat;
     }
 
     public Text createNarrowStaves() {
@@ -54,7 +56,7 @@ public class SymbolFactory {
 
     public Text createNote(boolean isUpperHalf) {
         Text note = makeText(isUpperHalf ? NOTE_DOWN : NOTE_UP);
-        double offset = 3 * font.getSize() / 8;
+        double offset = 3 * getLineHeight();
         double origin = note.getTranslateY();
         note.setTranslateY(origin + (isUpperHalf ? offset : -offset));
         return note;
@@ -86,6 +88,11 @@ public class SymbolFactory {
         text.setBoundsType(TextBoundsType.VISUAL);
         text.setTranslateY(-font.getSize() * 0.05);
         return text;
+    }
+
+    private double getLineHeight() {
+        double lineHeight = font.getSize() / 8;
+        return lineHeight;
     }
 
     private Font loadFont(String path, int size) {

@@ -8,6 +8,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
+<?import earpitch.widget.counter.Counter?>
+<?import javafx.scene.shape.Line?>
 
 <Scene xmlns:fx="http://javafx.com/fxml">
 	<BorderPane>
@@ -17,16 +19,22 @@
 			</HBox>
 		</top>
 		<center>
-			<VBox id="main" alignment="CENTER">
+			<HBox id="main" alignment="CENTER">
 				<Staff fx:id="staff" />
-				<Keyboard fx:id="keyboard" />			
-			</VBox>
+				<HBox id="counters" alignment="CENTER">
+					<Counter fx:id="okCounter" text="0" color="#90EE90"/>
+					<Counter fx:id="failCounter" text="0" color="#FB6F65"/>
+				</HBox>				
+			</HBox>
 		</center>
 		<bottom>
-			<HBox id="footer" alignment="CENTER">
-				<Button fx:id="playButton" text="Play" onAction="#play"/>
-				<Button fx:id="hintButton" text="Hint" onAction="#hint"/>
-			</HBox>
+			<VBox alignment="CENTER">
+				<Keyboard fx:id="keyboard" />
+				<HBox id="footer" alignment="CENTER">
+					<Button fx:id="playButton" text="Play" onAction="#play"/>
+					<Button fx:id="hintButton" text="Hint" onAction="#hint"/>
+				</HBox>
+			</VBox>
 		</bottom>
 	</BorderPane>
 </Scene>

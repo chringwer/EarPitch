@@ -6,11 +6,20 @@
 }
 
 #main {
-    -fx-spacing: 2em;
+	-fx-spacing: 4em;
+}
+
+#main Label {
+	-fx-background-color: black;
+}
+
+#counters {
+	-fx-spacing: 1em;
 }
 
 Button {
     -fx-font-size: 14pt;
+    -fx-padding: 1em;
 }
 
 #logo {

@@ -14,6 +14,7 @@ import earpitch.Pitch;
 import earpitch.Trainer;
 import earpitch.sound.Speaker;
 import earpitch.util.LayoutUtil;
+import earpitch.widget.counter.Counter;
 import earpitch.widget.keyboard.Keyboard;
 import earpitch.widget.keyboard.NoteEvent;
 import earpitch.widget.staff.Staff;
@@ -27,6 +28,8 @@ public class Training implements Initializable {
     private @FXML Keyboard keyboard;
     private @FXML Button playButton;
     private @FXML Button hintButton;
+    private @FXML Counter okCounter;
+    private @FXML Counter failCounter;
 
     private Speaker speaker;
     private Trainer trainer;
@@ -68,7 +71,10 @@ public class Training implements Initializable {
         boolean matched = challenge.advanceIfMatches(pitch);
 
         if (matched) {
+            okCounter.increment();
             staff.addNote(pitch);
+        } else {
+            failCounter.increment();
         }
     }
 }

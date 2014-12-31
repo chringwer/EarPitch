@@ -1,15 +1,19 @@
 package earpitch.gui;
 
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.util.Duration;
 import earpitch.Challenge;
 import earpitch.Pitch;
 import earpitch.Trainer;
@@ -34,10 +38,12 @@ public class Training implements Initializable {
     private @FXML Counter okCounter;
     private @FXML Counter failCounter;
     private @FXML CheckBox fixedFirstToneCheckbox;
+    private @FXML Node alert;
 
     private Speaker speaker;
     private Trainer trainer;
     private Challenge challenge;
+    private List<Button> buttons;
 
     @FXML
     public void hint() {
@@ -63,6 +69,8 @@ public class Training implements Initializable {
             process(note.getPitch());
         });
 
+        buttons = Arrays.asList(new Button[] { playButton, hintButton, resetButton });
+
         reset();
     }
 
@@ -74,10 +82,6 @@ public class Training implements Initializable {
     }
 
     public void process(Pitch pitch) {
-        if (challenge.isSolved()) {
-            challenge = trainer.nextChallenge();
-        }
-
         boolean matched = challenge.advanceIfMatches(pitch);
 
         if (matched) {
@@ -86,13 +90,28 @@ public class Training implements Initializable {
         } else {
             failCounter.increment();
         }
+
+        if (challenge.isSolved()) {
+            buttons.forEach(button -> button.setDisable(true));
+            CompletableFuture.runAsync(() -> {
+                try {
+                    Thread.sleep((long) Duration.seconds(1).toMillis());
+                    Platform.runLater(() -> alert.setVisible(true));
+                } catch (Exception e) {
+                    return;
+                }
+            });
+        }
     }
 
     @FXML
     public void reset() {
         challenge = trainer.nextChallenge();
+        buttons.forEach(button -> button.setDisable(false));
+        alert.setVisible(false);
         okCounter.reset();
         failCounter.reset();
         staff.clear();
+        play();
     }
 }

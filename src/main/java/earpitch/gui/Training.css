@@ -1,25 +1,39 @@
+#alert-background {
+	-fx-background-color: rgba(64.0, 64.0, 64.0, 0.85);
+}
+
+.alert {
+	-fx-padding: 3em;
+	-fx-spacing: 1em;
+	-fx-background-color: #FFFFFF;
+}
+
+.alert Label {
+	-fx-font-weight: bold;
+}
+
 #header, #footer {
     -fx-padding: 1.5em;
-    -fx-spacing: 1em;
+    -fx-spacing: 1.0em;
     -fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color; 
-    -fx-background-insets: 0, 1, 2;
+    -fx-background-insets: 0.0, 1.0, 2.0;
 }
 
 #counters {
-	-fx-padding: 3em;
-	-fx-spacing: 1em;
+	-fx-padding: 3.0em;
+	-fx-spacing: 1.0em;
 }
 
 #options {
-	-fx-padding: 2em;
-	-fx-spacing: 1em;
+	-fx-padding: 2.0em;
+	-fx-spacing: 1.0em;
 }
 
 Button {
-    -fx-font-size: 10pt;
-    -fx-padding: 1em;
+    -fx-font-size: 10.0pt;
+    -fx-padding: 1.0em;
 }
 
 #logo {
-    -fx-font-size: 14pt;
+    -fx-font-size: 14.0pt;
 }

@@ -29,7 +29,7 @@ public class SymbolFactory {
 
     public SymbolFactory() {
         metadata = parseFontMetadata();
-        font = loadFont("bravura/otf/Bravura.otf", 80);
+        font = loadFont("bravura/otf/Bravura.otf", 60);
     }
 
     public Text createBarlineEnd() {

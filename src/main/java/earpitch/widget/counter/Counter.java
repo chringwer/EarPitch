@@ -16,13 +16,15 @@ import javafx.scene.text.FontWeight;
 import javafx.util.converter.NumberStringConverter;
 
 public class Counter extends Label {
+    private final int size = 100;
     private IntegerProperty counter;
     private StringProperty color;
 
     public Counter() {
-        setFont(Font.font("Arial Narrow", FontWeight.EXTRA_BOLD, 50));
-        setMinHeight(150);
-        setMinWidth(150);
+        setFont(Font.font("Arial Narrow", FontWeight.EXTRA_BOLD, 30));
+
+        setMinHeight(size);
+        setMinWidth(size);
         setAlignment(Pos.CENTER);
 
         setTextFill(Color.WHITE);

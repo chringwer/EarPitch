@@ -3,6 +3,7 @@ package earpitch.widget.keyboard;
 import java.util.List;
 
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.layout.Region;
@@ -13,10 +14,12 @@ import earpitch.widget.keyboard.PitchMapper.Builder;
 
 public class Keyboard extends Region {
     private final int width = 30;
-    private final int height = 150;
+    private final int height = 120;
 
     public Keyboard() {
         Builder<Rectangle> mapper = new PitchMapper.Builder<Rectangle>();
+
+        setMinHeight(height);
 
         List<Rectangle> keys = mapper.groupBy(Pitch::toMidiNote)
                                      .register('!', this::black)
@@ -30,12 +33,14 @@ public class Keyboard extends Region {
     @Override
     protected void layoutChildren() {
         ObservableList<Node> children = getChildren();
-        double width = getWidth() / children.size();
+        Insets padding = getPadding();
+        double total = getWidth() - (padding.getLeft() + padding.getRight());
+        double width = total / children.size();
 
         for (int idx = 0; idx < children.size(); idx++) {
             Rectangle rectangle = (Rectangle) children.get(idx);
             rectangle.setWidth(width);
-            rectangle.setTranslateX(idx * width);
+            rectangle.setTranslateX(padding.getLeft() + idx * width);
         }
     }
 

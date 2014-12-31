@@ -10,22 +10,41 @@
 <?import javafx.scene.layout.HBox?>
 <?import earpitch.widget.counter.Counter?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.CheckBox?>
 
 <Scene xmlns:fx="http://javafx.com/fxml">
 	<BorderPane>
 		<top>
-			<HBox id="header">
+			<HBox id="header" styleClass="section">
 				<Label id="logo" text="EarPitch" />
 			</HBox>
 		</top>
 		<center>
-			<HBox id="main" alignment="CENTER">
-				<Staff fx:id="staff" />
-				<HBox id="counters" alignment="CENTER">
-					<Counter fx:id="okCounter" text="0" color="#90EE90"/>
-					<Counter fx:id="failCounter" text="0" color="#FB6F65"/>
-				</HBox>				
-			</HBox>
+			<BorderPane id="main" BorderPane.alignment="CENTER">
+				<left>
+					<HBox styleClass="left" alignment="CENTER">
+						<VBox id="counters" alignment="CENTER">
+							<Counter fx:id="okCounter" text="0" color="#90EE90"/>
+							<Counter fx:id="failCounter" text="0" color="#FB6F65"/>
+						</VBox>	
+						<Separator orientation="VERTICAL" />
+					</HBox>			
+				</left>
+				<center>
+					<VBox alignment="CENTER">
+						<Staff fx:id="staff" />
+					</VBox>
+				</center>
+				<right>
+					<HBox styleClass="right" alignment="CENTER">
+						<Separator orientation="VERTICAL" />
+						<VBox id="options" alignment="TOP_LEFT" minWidth="250">
+							<Label text="Some Options ..."/>
+						</VBox>
+					</HBox>
+				</right>
+			</BorderPane>
 		</center>
 		<bottom>
 			<VBox alignment="CENTER">

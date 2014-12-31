@@ -40,7 +40,7 @@
 					<HBox styleClass="right" alignment="CENTER">
 						<Separator orientation="VERTICAL" />
 						<VBox id="options" alignment="TOP_LEFT" minWidth="250">
-							<Label text="Some Options ..."/>
+							<CheckBox fx:id="fixedFirstToneCheckbox" selected="true" text="Fixed first tone" />
 						</VBox>
 					</HBox>
 				</right>
@@ -52,6 +52,7 @@
 				<HBox id="footer" alignment="CENTER">
 					<Button fx:id="playButton" text="Play" onAction="#play"/>
 					<Button fx:id="hintButton" text="Hint" onAction="#hint"/>
+					<Button fx:id="resetButton" text="Reset" onAction="#reset"/>
 				</HBox>
 			</VBox>
 		</bottom>

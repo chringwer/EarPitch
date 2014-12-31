@@ -52,6 +52,10 @@ public class Counter extends Label {
         return counter.get();
     }
 
+    public void reset() {
+        counter.set(0);
+    }
+
     public void setColor(String color) {
         this.color.set(color);
     }

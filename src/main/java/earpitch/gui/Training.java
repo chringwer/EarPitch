@@ -9,9 +9,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import earpitch.Challenge;
 import earpitch.Pitch;
 import earpitch.Trainer;
+import earpitch.Trainer.Option;
 import earpitch.sound.Speaker;
 import earpitch.util.LayoutUtil;
 import earpitch.widget.counter.Counter;
@@ -28,8 +30,10 @@ public class Training implements Initializable {
     private @FXML Keyboard keyboard;
     private @FXML Button playButton;
     private @FXML Button hintButton;
+    private @FXML Button resetButton;
     private @FXML Counter okCounter;
     private @FXML Counter failCounter;
+    private @FXML CheckBox fixedFirstToneCheckbox;
 
     private Speaker speaker;
     private Trainer trainer;
@@ -46,14 +50,20 @@ public class Training implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        trainer = new Trainer();
+        trainer = new Trainer(Option.FIXED_FIRST_TONE);
         speaker = new Speaker();
-        challenge = trainer.nextChallenge();
+
+        fixedFirstToneCheckbox.selectedProperty().addListener((e, oldVal, newVal) -> {
+            trainer.set(Option.FIXED_FIRST_TONE, newVal);
+            reset();
+        });
 
         keyboard.addEventHandler(NoteEvent.PLAYED, note -> {
             CompletableFuture.runAsync(() -> speaker.play(note.getPitch()));
             process(note.getPitch());
         });
+
+        reset();
     }
 
     @FXML
@@ -76,5 +86,13 @@ public class Training implements Initializable {
         } else {
             failCounter.increment();
         }
+    }
+
+    @FXML
+    public void reset() {
+        challenge = trainer.nextChallenge();
+        okCounter.reset();
+        failCounter.reset();
+        staff.clear();
     }
 }

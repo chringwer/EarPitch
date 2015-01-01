@@ -11,11 +11,14 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.loadui.testfx.GuiTest;
+import org.loadui.testfx.categories.TestFX;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 
 import earpitch.Pitch;
 
+@Category(TestFX.class)
 public class NoteTest extends GuiTest {
     private SymbolFactory symbolFactory = new SymbolFactory();
 

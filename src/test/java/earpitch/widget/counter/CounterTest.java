@@ -7,8 +7,11 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.loadui.testfx.GuiTest;
+import org.loadui.testfx.categories.TestFX;
 
+@Category(TestFX.class)
 public class CounterTest extends GuiTest {
     private Counter counter;
 

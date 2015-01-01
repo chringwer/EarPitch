@@ -17,10 +17,13 @@ import javafx.scene.Parent;
 import javafx.scene.text.Text;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.loadui.testfx.GuiTest;
+import org.loadui.testfx.categories.TestFX;
 
 import earpitch.Pitch;
 
+@Category(TestFX.class)
 public class StaffTest extends GuiTest {
     @Test
     public void higherNotesHaveHigherYPositions() {

@@ -130,7 +130,6 @@
 						<plugin>
 							<artifactId>maven-surefire-plugin</artifactId>
 							<configuration>
-								<excludedGroups>org.loadui.testfx.categories.TestFX</excludedGroups>
 							</configuration>
 						</plugin>
 					</plugins>

@@ -139,6 +139,9 @@
 					<plugin>
 						<groupId>org.jacoco</groupId>
 						<artifactId>jacoco-maven-plugin</artifactId>
+						<configuration>
+							<skip>${skipTests}</skip>
+						</configuration>
 						<executions>
 							<execution>
 								<id>collect-coverage</id>
@@ -152,6 +155,9 @@
 					<plugin>
 						<groupId>org.eluder.coveralls</groupId>
 						<artifactId>coveralls-maven-plugin</artifactId>
+						<configuration>
+							<skip>${skipTests}</skip>
+						</configuration>
 						<executions>
 							<execution>
 								<id>report-coverage</id>

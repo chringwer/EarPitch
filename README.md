@@ -1,4 +1,4 @@
-# Ear Pitch  [![Build Status](https://travis-ci.org/chringwer/EarPitch.svg?branch=master)](https://travis-ci.org/chringwer/EarPitch)
+# Ear Pitch  [![Build Status](https://travis-ci.org/chringwer/EarPitch.svg?branch=master)](https://travis-ci.org/chringwer/EarPitch) [![Coverage Status](https://coveralls.io/repos/chringwer/EarPitch/badge.png?branch=master)](https://coveralls.io/r/chringwer/EarPitch?branch=master)
 
 
 An ear training application for musicians.

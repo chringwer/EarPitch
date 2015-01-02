@@ -1,14 +1,24 @@
 package earpitch;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import earpitch.Challenge;
-import earpitch.Pitch;
+import earpitch.sound.Speaker;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ChallengeTest {
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @Test
     public void advancesOnSecondTryIfCorrect() {
         Challenge solver = new Challenge(Pitch.C4, Pitch.D4);
@@ -36,11 +46,13 @@ public class ChallengeTest {
     }
 
     @Test
-    public void returnsNextExpectedPitch() {
-        Challenge solver = new Challenge(Pitch.C4, Pitch.D4);
-        assertThat(solver.getExpected(), is(Pitch.C4));
-        solver.advanceIfMatches(Pitch.C4);
-        assertThat(solver.getExpected(), is(Pitch.D4));
+    public void forwardMelodyToSpeaker() {
+        Challenge challenge = new Challenge(Pitch.C4, Pitch.D4);
+        Speaker speaker = mock(Speaker.class);
+
+        challenge.outputTo(speaker);
+
+        verify(speaker).play(Pitch.C4, Pitch.D4);
     }
 
     @Test
@@ -51,10 +63,22 @@ public class ChallengeTest {
         assertThat(solver.isSolved(), is(true));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
+    public void returnsNextExpectedPitch() {
+        Challenge solver = new Challenge(Pitch.C4, Pitch.D4);
+        assertThat(solver.getExpected(), is(Pitch.C4));
+        solver.advanceIfMatches(Pitch.C4);
+        assertThat(solver.getExpected(), is(Pitch.D4));
+    }
+
+    @Test
     public void throwsOnInputAfterBeingComplete() {
         Challenge solver = new Challenge(Pitch.E4);
         solver.advanceIfMatches(Pitch.E4);
+
+        assertThat(solver.getExpected(), nullValue());
+
+        thrown.expect(IllegalStateException.class);
         solver.advanceIfMatches(Pitch.F4);
     }
 }

@@ -32,7 +32,7 @@ public class KeyboardTest extends GuiTest {
 
     @Test
     public void firesNoteEventWhenClicked() throws InterruptedException {
-        click("#key-" + Pitch.D4.toMidiNote());
+        click("#" + Keyboard.identifierForKey(Pitch.D4));
 
         ArgumentCaptor<NoteEvent> captor = ArgumentCaptor.forClass(NoteEvent.class);
         verify(eventhandler).handle(captor.capture());

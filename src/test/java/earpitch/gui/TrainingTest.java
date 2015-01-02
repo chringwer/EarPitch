@@ -16,6 +16,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.categories.TestFX;
+import org.loadui.testfx.utils.TestUtils;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -75,14 +76,14 @@ public class TrainingTest extends GuiTest {
 
         click("#" + Keyboard.identifierForKey(Pitch.A4));
 
-        waitUntil(() -> {
+        TestUtils.awaitCondition(() -> {
             try {
                 Node alert = find("#alert-background");
                 return alert.isVisible();
             } catch (Exception e) {
                 return false;
             }
-        }, is(true));
+        });
 
         assertNodeExists(hasText("Next Challenge?"));
     }

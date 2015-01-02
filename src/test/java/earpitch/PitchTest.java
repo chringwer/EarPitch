@@ -1,11 +1,12 @@
 package earpitch;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import earpitch.Pitch;
+import earpitch.Pitch.Traverser.Choice;
 
 public class PitchTest {
     @Test
@@ -20,6 +21,20 @@ public class PitchTest {
         assertThat(Pitch.C$4.isSharp(), is(true));
         assertThat(Pitch.Db4.isSharp(), is(false));
         assertThat(Pitch.C4.isSharp(), is(false));
+    }
+
+    @Test
+    public void findNextHalfTone() {
+        assertThat(Pitch.C4.traverse(Choice.SHARP).nextHalfTone(), is(Pitch.C$4));
+        assertThat(Pitch.C4.traverse(Choice.FLAT).nextHalfTone(), is(Pitch.Db4));
+        assertThat(Pitch.highest().traverse().nextHalfTone(), nullValue());
+    }
+
+    @Test
+    public void findNextWholeTone() {
+        assertThat(Pitch.C4.traverse().nextWholeTone(), is(Pitch.D4));
+        assertThat(Pitch.E4.traverse().nextWholeTone(), is(Pitch.F$4));
+        assertThat(Pitch.highest().traverse().nextWholeTone(), nullValue());
     }
 
     @Test

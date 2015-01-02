@@ -15,57 +15,55 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.FlowPane?>
 
-<Scene xmlns:fx="http://javafx.com/fxml">
-	<StackPane>
-		<BorderPane>
-			<top>
-				<HBox id="header" styleClass="section">
-					<Label id="logo" text="EarPitch" />
-				</HBox>
-			</top>
-			<center>
-				<BorderPane id="main" BorderPane.alignment="CENTER">
-					<left>
-						<HBox styleClass="left" alignment="CENTER">
-							<VBox id="counters" alignment="CENTER">
-								<Counter fx:id="okCounter" text="0" color="#90EE90" />
-								<Counter fx:id="failCounter" text="0" color="#FB6F65" />
-							</VBox>
-							<Separator orientation="VERTICAL" />
-						</HBox>
-					</left>
-					<center>
-						<VBox alignment="CENTER">
-							<Staff fx:id="staff" />
+<StackPane xmlns:fx="http://javafx.com/fxml">
+	<BorderPane>
+		<top>
+			<HBox id="header" styleClass="section">
+				<Label id="logo" text="EarPitch" />
+			</HBox>
+		</top>
+		<center>
+			<BorderPane id="main" BorderPane.alignment="CENTER">
+				<left>
+					<HBox styleClass="left" alignment="CENTER">
+						<VBox id="counters" alignment="CENTER">
+							<Counter fx:id="okCounter" text="0" color="#90EE90" />
+							<Counter fx:id="failCounter" text="0" color="#FB6F65" />
 						</VBox>
-					</center>
-					<right>
-						<HBox styleClass="right" alignment="CENTER">
-							<Separator orientation="VERTICAL" />
-							<VBox id="options" alignment="TOP_LEFT" minWidth="250">
-								<CheckBox fx:id="fixedFirstToneCheckbox" selected="true"
-									text="Fixed first tone" />
-							</VBox>
-						</HBox>
-					</right>
-				</BorderPane>
-			</center>
-			<bottom>
-				<VBox alignment="CENTER">
-					<Keyboard fx:id="keyboard" />
-					<HBox id="footer" alignment="CENTER">
-						<Button fx:id="playButton" text="Play" onAction="#play" />
-						<Button fx:id="hintButton" text="Hint" onAction="#hint" />
-						<Button fx:id="resetButton" text="Reset" onAction="#reset" />
+						<Separator orientation="VERTICAL" />
 					</HBox>
-				</VBox>
-			</bottom>
-		</BorderPane>
-		<FlowPane fx:id="alert" id="alert-background" alignment="CENTER" visible="false">
-			<VBox styleClass="alert" alignment="CENTER">
-				<Label text="That was correct!" />
-				<Button text="Next Challenge?" onAction="#reset" />
-			</VBox>	
-		</FlowPane>
-	</StackPane>
-</Scene>
+				</left>
+				<center>
+					<VBox alignment="CENTER">
+						<Staff fx:id="staff" />
+					</VBox>
+				</center>
+				<right>
+					<HBox styleClass="right" alignment="CENTER">
+						<Separator orientation="VERTICAL" />
+						<VBox id="options" alignment="TOP_LEFT" minWidth="250">
+							<CheckBox fx:id="fixedFirstToneCheckbox" selected="true"
+								text="Fixed first tone" />
+						</VBox>
+					</HBox>
+				</right>
+			</BorderPane>
+		</center>
+		<bottom>
+			<VBox alignment="CENTER">
+				<Keyboard fx:id="keyboard" />
+				<HBox id="footer" alignment="CENTER">
+					<Button fx:id="playButton" text="Play" onAction="#play" />
+					<Button fx:id="hintButton" text="Hint" onAction="#hint" />
+					<Button fx:id="resetButton" text="Reset" onAction="#reset" />
+				</HBox>
+			</VBox>
+		</bottom>
+	</BorderPane>
+	<FlowPane fx:id="alert" id="alert-background" alignment="CENTER" visible="false">
+		<VBox styleClass="alert" alignment="CENTER">
+			<Label text="That was correct!" />
+			<Button text="Next Challenge?" onAction="#reset" />
+		</VBox>	
+	</FlowPane>
+</StackPane>

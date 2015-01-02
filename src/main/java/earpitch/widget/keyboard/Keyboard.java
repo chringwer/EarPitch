@@ -13,7 +13,12 @@ import earpitch.Pitch;
 import earpitch.widget.keyboard.PitchMapper.Builder;
 
 public class Keyboard extends Region {
+    public static String identifierForKey(Pitch pitch) {
+        return "key-" + pitch.toMidiNote();
+    }
+
     private final int width = 30;
+
     private final int height = 120;
 
     public Keyboard() {
@@ -46,7 +51,7 @@ public class Keyboard extends Region {
 
     private Rectangle attachHandler(Rectangle key, List<Pitch> pitches) {
         Pitch pitch = pitches.get(0);
-        key.setId("key-" + pitch.toMidiNote());
+        key.setId(identifierForKey(pitch));
         key.setOnMouseClicked((e) -> fireEvent(new NoteEvent(pitch)));
         return key;
     }

@@ -1,7 +1,9 @@
-package earpitch.gui;
+package earpitch.gui.launcher;
 
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+import earpitch.gui.Training;
 
 public class EarPitch extends Application {
     public static void main(String[] args) {
@@ -12,7 +14,7 @@ public class EarPitch extends Application {
     public void start(Stage stage) throws Exception {
         stage.setTitle("EarPitch");
 
-        stage.setScene(Training.createScene());
+        stage.setScene(new Scene(Training.createRoot()));
 
         stage.setWidth(800);
         stage.setHeight(600);

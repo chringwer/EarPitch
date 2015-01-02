@@ -10,7 +10,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Scene;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.util.Duration;
@@ -26,8 +26,12 @@ import earpitch.widget.keyboard.NoteEvent;
 import earpitch.widget.staff.Staff;
 
 public class Training implements Initializable {
-    public static Scene createScene() {
-        return LayoutUtil.load(new Training());
+    public static Parent createRoot() {
+        return createRoot(new Trainer(Option.FIXED_FIRST_TONE), new Speaker());
+    }
+
+    public static Parent createRoot(Trainer trainer, Speaker speaker) {
+        return LayoutUtil.load(new Training(trainer, speaker));
     }
 
     private @FXML Staff staff;
@@ -45,6 +49,11 @@ public class Training implements Initializable {
     private Challenge challenge;
     private List<Button> buttons;
 
+    public Training(Trainer trainer, Speaker speaker) {
+        this.trainer = trainer;
+        this.speaker = speaker;
+    }
+
     @FXML
     public void hint() {
         if (challenge.isSolved()) {
@@ -56,9 +65,6 @@ public class Training implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        trainer = new Trainer(Option.FIXED_FIRST_TONE);
-        speaker = new Speaker();
-
         fixedFirstToneCheckbox.selectedProperty().addListener((e, oldVal, newVal) -> {
             trainer.set(Option.FIXED_FIRST_TONE, newVal);
             reset();

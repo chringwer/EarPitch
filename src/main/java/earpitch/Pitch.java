@@ -38,7 +38,7 @@ public enum Pitch {
         return name().indexOf('$') > 0;
     }
 
-    public boolean isWhole() {
+    public boolean isNatural() {
         return !isFlat() && !isSharp();
     }
 
@@ -48,5 +48,17 @@ public enum Pitch {
 
     public int toMidiNote() {
         return midiNote;
+    }
+
+    public Pitch withSameOctaveAs(Pitch other) {
+        String myName = name();
+        String otherName = other.name();
+        String octave = String.valueOf(otherName.charAt(otherName.length() - 1));
+
+        if (myName.endsWith(octave)) {
+            return this;
+        } else {
+            return valueOf(myName.replaceFirst("[0-9]", octave));
+        }
     }
 }

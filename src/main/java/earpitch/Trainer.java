@@ -11,8 +11,11 @@ public class Trainer {
         FIXED_FIRST_TONE;
     }
 
+    private static final Pitch BASE_TONE = Pitch.C5;
+
     private Set<Option> options;
     private Generator generator;
+    private Scale scale = Scale.IONIAN;
 
     public Trainer(Option... options) {
         this.options = new HashSet<Trainer.Option>();
@@ -22,6 +25,10 @@ public class Trainer {
         }
 
         updateGenerator();
+    }
+
+    public Pitch adjustToScale(Pitch pitch) {
+        return scale.withBaseTone(BASE_TONE).withMidiNote(pitch.toMidiNote());
     }
 
     public void disable(Option option) {
@@ -47,10 +54,10 @@ public class Trainer {
     }
 
     private void updateGenerator() {
-        ScaleBasedGenerator generator = new ScaleBasedGenerator(Scale.IONIAN);
+        ScaleBasedGenerator generator = new ScaleBasedGenerator(scale);
 
         if (options.contains(Option.FIXED_FIRST_TONE)) {
-            generator.setFirstTone(Pitch.A4);
+            generator.setFirstTone(BASE_TONE);
         }
 
         this.generator = generator;

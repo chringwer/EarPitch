@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.loadui.testfx.Assertions.assertNodeExists;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -17,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.categories.TestFX;
 import org.loadui.testfx.utils.TestUtils;
+import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -98,6 +100,7 @@ public class TrainingTest extends GuiTest {
     @Override
     protected Parent getRootNode() {
         when(trainer.nextChallenge()).thenReturn(challenge);
+        when(trainer.adjustToScale(any(Pitch.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
         return Training.createRoot(trainer, speaker);
     }
 }

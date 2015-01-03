@@ -92,7 +92,7 @@ public class Training implements Initializable {
 
         if (matched) {
             okCounter.increment();
-            staff.addNote(pitch);
+            staff.addNote(trainer.adjustToScale(pitch));
         } else {
             failCounter.increment();
         }

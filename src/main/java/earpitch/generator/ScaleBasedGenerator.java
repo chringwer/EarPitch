@@ -11,7 +11,7 @@ import earpitch.Scale;
 import earpitch.Scale.Pointer;
 
 public class ScaleBasedGenerator implements Generator {
-    private int maxStepSize = 4;
+    private int maxStepSize = 8;
     private Scale scale;
     private Optional<Pitch> initialTone = Optional.empty();
 

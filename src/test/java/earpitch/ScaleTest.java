@@ -1,8 +1,10 @@
 package earpitch;
 
+import static earpitch.Pitch.A$4;
 import static earpitch.Pitch.A3;
 import static earpitch.Pitch.A4;
 import static earpitch.Pitch.B4;
+import static earpitch.Pitch.Bb4;
 import static earpitch.Pitch.C$4;
 import static earpitch.Pitch.C4;
 import static earpitch.Pitch.C5;
@@ -22,6 +24,18 @@ import org.junit.Test;
 import earpitch.Scale.Pointer;
 
 public class ScaleTest {
+    @Test
+    public void determineMinorOrMajorStyle() {
+        assertThat(Scale.IONIAN.isMajor(), is(true));
+        assertThat(Scale.AEOLIAN.isMajor(), is(false));
+    }
+
+    @Test
+    public void followKeySignature() {
+        Pointer pointer = Scale.IONIAN.withBaseTone(F4);
+        assertThat(pointer.moveAndGet(3), is(Bb4));
+    }
+
     @Test
     public void ionianScaleOnlyNaturals() {
         assertThat(Scale.IONIAN.range(C4, 8), contains(C4, D4, E4, F4, G4, A4, B4, C5));
@@ -53,6 +67,12 @@ public class ScaleTest {
         }
 
         assertThat(pointer.moveAndGet(2), is(C$4));
+    }
+
+    @Test
+    public void translateMidiNoteToCorrectPitch() {
+        assertThat(Scale.IONIAN.withBaseTone(F4).withMidiNote(Bb4.toMidiNote()), is(Bb4));
+        assertThat(Scale.IONIAN.withBaseTone(F$4).withMidiNote(Bb4.toMidiNote()), is(A$4));
     }
 
     @Test(expected = IndexOutOfBoundsException.class)

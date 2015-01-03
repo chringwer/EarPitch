@@ -7,20 +7,29 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Iterables;
 import com.google.common.primitives.Chars;
 
+import earpitch.CircleOfFiths.Signature;
+
 public enum Scale {
-    IONIAN("TTsTTTsT");
+    IONIAN("TTsTTTsT"), AEOLIAN("TsTTsTT");
 
-    public static class Pointer {
+    public class Pointer {
+        private Pitch base;
         private Pitch current;
-        private List<Integer> intervals;
         private ListIterator<Integer> iterator;
+        private Signature signature;
 
-        public Pointer(Pitch baseTone, List<Integer> intervals) {
+        public Pointer(Pitch baseTone, Scale scale) {
+            this.base = baseTone;
             this.current = baseTone;
-            this.intervals = intervals;
+            signature = CircleOfFiths.getSignature(base, Scale.this);
             iterator = intervals.listIterator();
+        }
+
+        public Pitch withMidiNote(int midiNote) {
+            return withMatchingSignature(PITCH_BY_MIDINOTE.get(midiNote));
         }
 
         public Pitch moveAndGet(int steps) {
@@ -34,9 +43,13 @@ public enum Scale {
                 throw new IndexOutOfBoundsException("Cannot move " + interval + " steps from " + current.name());
             }
 
-            current = candidates.get(0);
+            current = withMatchingSignature(candidates);
 
             return current;
+        }
+
+        private Pitch withMatchingSignature(List<Pitch> candidates) {
+            return Iterables.tryFind(candidates, signature::matches).or(candidates.get(0));
         }
 
         private int toInterval(int steps) {
@@ -68,9 +81,19 @@ public enum Scale {
 
     private static Map<Integer, List<Pitch>> PITCH_BY_MIDINOTE = createGroups();
     private List<Integer> intervals;
+    private String pattern;
 
     private Scale(String pattern) {
+        this.pattern = pattern;
         this.intervals = parse(pattern);
+    }
+
+    public boolean isMajor() {
+        return pattern.charAt(2) == 's';
+    }
+
+    public Pitch pitchAt(int midiNote) {
+        return null;
     }
 
     public List<Pitch> range(Pitch start, int length) {
@@ -84,7 +107,7 @@ public enum Scale {
     }
 
     public Pointer withBaseTone(Pitch baseTone) {
-        return new Pointer(baseTone, intervals);
+        return new Pointer(baseTone, this);
     }
 
     private List<Integer> parse(String pattern) {

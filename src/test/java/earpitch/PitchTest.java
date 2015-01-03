@@ -30,6 +30,12 @@ public class PitchTest {
     }
 
     @Test
+    public void mapsToOctave() {
+        assertThat(Pitch.A3.withSameOctaveAs(Pitch.C4), is(Pitch.A4));
+        assertThat(Pitch.A4.withSameOctaveAs(Pitch.C4), is(Pitch.A4));
+    }
+
+    @Test
     public void prettyPrinted() {
         assertThat(Pitch.C$5.prettyPrinted(), is("C#"));
         assertThat(Pitch.Bb3.prettyPrinted(), is("Bb"));

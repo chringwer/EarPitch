@@ -1,0 +1,96 @@
+package earpitch;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import com.google.common.primitives.Chars;
+
+public enum Scale {
+    IONIAN("TTsTTTsT");
+
+    public static class Pointer {
+        private Pitch current;
+        private List<Integer> intervals;
+        private ListIterator<Integer> iterator;
+
+        public Pointer(Pitch baseTone, List<Integer> intervals) {
+            this.current = baseTone;
+            this.intervals = intervals;
+            iterator = intervals.listIterator();
+        }
+
+        public Pitch moveAndGet(int steps) {
+            int position = iterator.nextIndex();
+            int interval = toInterval(steps);
+
+            List<Pitch> candidates = PITCH_BY_MIDINOTE.get(current.toMidiNote() + interval);
+
+            if (candidates == null) {
+                iterator = intervals.listIterator(position);
+                throw new IndexOutOfBoundsException("Cannot move " + interval + " steps from " + current.name());
+            }
+
+            current = candidates.get(0);
+
+            return current;
+        }
+
+        private int toInterval(int steps) {
+            boolean isAscending = steps >= 0;
+
+            int result = 0;
+            for (int i = 0; i < Math.abs(steps); i++) {
+                if (isAscending) {
+                    if (!iterator.hasNext()) {
+                        iterator = intervals.listIterator();
+                    }
+
+                    result += iterator.next();
+                } else {
+                    if (!iterator.hasPrevious()) {
+                        iterator = intervals.listIterator(intervals.size() - 1);
+                    }
+
+                    result -= iterator.previous();
+                }
+            }
+            return result;
+        }
+    }
+
+    private static Map<Integer, List<Pitch>> createGroups() {
+        return Arrays.stream(Pitch.values()).collect(Collectors.groupingBy(Pitch::toMidiNote));
+    }
+
+    private static Map<Integer, List<Pitch>> PITCH_BY_MIDINOTE = createGroups();
+    private List<Integer> intervals;
+
+    private Scale(String pattern) {
+        this.intervals = parse(pattern);
+    }
+
+    public List<Pitch> range(Pitch start, int length) {
+        List<Pitch> result = new ArrayList<Pitch>();
+        Pointer pointer = withBaseTone(start);
+        result.add(pointer.moveAndGet(0));
+        for (int i = 1; i < length; i++) {
+            result.add(pointer.moveAndGet(1));
+        }
+        return result;
+    }
+
+    public Pointer withBaseTone(Pitch baseTone) {
+        return new Pointer(baseTone, intervals);
+    }
+
+    private List<Integer> parse(String pattern) {
+        return Chars.asList(pattern.toCharArray())
+                    .stream()
+                    .map(symbol -> symbol == 's' ? 1 : 2)
+                    .collect(Collectors.toList());
+    }
+}

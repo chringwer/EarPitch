@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import earpitch.generator.RandomGenerator;
+import earpitch.generator.ScaleBasedGenerator;
 
 public class Trainer {
     public enum Option {
@@ -47,7 +47,7 @@ public class Trainer {
     }
 
     private void updateGenerator() {
-        RandomGenerator generator = new RandomGenerator();
+        ScaleBasedGenerator generator = new ScaleBasedGenerator(Scale.IONIAN);
 
         if (options.contains(Option.FIXED_FIRST_TONE)) {
             generator.setFirstTone(Pitch.A4);

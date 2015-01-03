@@ -10,12 +10,12 @@ import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.intThat;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Random;
-
+import org.apache.commons.math3.random.RandomDataGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +28,7 @@ import earpitch.Scale.Pointer;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ScaleBasedGeneratorTest {
-    private @Mock Random random;
+    private @Mock RandomDataGenerator random;
     private @Mock Pointer pointer;
     private ScaleBasedGenerator generator;
 
@@ -39,7 +39,7 @@ public class ScaleBasedGeneratorTest {
 
     @Test
     public void invertIntervalIfPointerIsOutOfBounds() {
-        when(random.nextInt(anyInt())).thenAnswer(AdditionalAnswers.returnsFirstArg());
+        when(random.nextInt(anyInt(), anyInt())).thenAnswer(AdditionalAnswers.returnsLastArg());
         when(pointer.moveAndGet(anyInt())).thenReturn(C4).thenThrow(new IndexOutOfBoundsException()).thenReturn(C4);
 
         generator.generate(pointer, random, 5);
@@ -51,6 +51,16 @@ public class ScaleBasedGeneratorTest {
     @Test
     public void makeSequenceWithGivenLength() {
         assertThat(generator.generate(3).length, is(3));
+    }
+
+    @Test
+    public void randomIntervalForEachNote() {
+        when(random.nextInt(anyInt(), anyInt())).thenAnswer(AdditionalAnswers.returnsLastArg());
+        when(pointer.moveAndGet(anyInt())).thenReturn(C4);
+
+        generator.generate(pointer, random, 5);
+
+        verify(random, atLeast(4)).nextInt(anyInt(), anyInt());
     }
 
     @Test

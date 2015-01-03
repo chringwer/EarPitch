@@ -3,7 +3,8 @@ package earpitch.generator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
+
+import org.apache.commons.math3.random.RandomDataGenerator;
 
 import earpitch.Generator;
 import earpitch.Pitch;
@@ -25,9 +26,8 @@ public class ScaleBasedGenerator implements Generator {
 
     @Override
     public Pitch[] generate(int length) {
-        Random random = new Random();
+        RandomDataGenerator random = new RandomDataGenerator();
         Pointer pointer = scale.withBaseTone(initialTone.orElse(Pitch.C4));
-
         List<Pitch> result = generate(pointer, random, length);
 
         return result.toArray(new Pitch[length]);
@@ -37,13 +37,12 @@ public class ScaleBasedGenerator implements Generator {
         this.initialTone = Optional.of(initialTone);
     }
 
-    List<Pitch> generate(Pointer pointer, Random random, int length) {
-        int interval = random.nextInt(maxStepSize * 2 + 1) - maxStepSize;
-
+    List<Pitch> generate(Pointer pointer, RandomDataGenerator random, int length) {
         List<Pitch> result = new ArrayList<Pitch>(length);
+
         result.add(pointer.moveAndGet(0));
         for (int i = 1; i < length; i++) {
-            result.add(next(pointer, interval));
+            result.add(next(pointer, random.nextInt(-maxStepSize, maxStepSize)));
         }
 
         return result;

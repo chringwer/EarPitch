@@ -31,7 +31,7 @@ public interface Generator {
 
         @Override
         public int getMaxStepSize() {
-            return 8;
+            return 4;
         }
 
         @Override

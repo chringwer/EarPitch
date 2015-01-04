@@ -34,7 +34,7 @@
 	</VBox>
 
 	<Slider fx:id="difficulty" blockIncrement="1" min="1" snapToTicks="true"
-		showTickMarks="true" minorTickCount="0" majorTickUnit="1" max="8"
+		showTickMarks="true" minorTickCount="0" majorTickUnit="1" max="7"
 		GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="2" />
 
 </fx:root>

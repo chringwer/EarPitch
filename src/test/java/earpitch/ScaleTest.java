@@ -9,7 +9,9 @@ import static earpitch.Pitch.C$4;
 import static earpitch.Pitch.C4;
 import static earpitch.Pitch.C5;
 import static earpitch.Pitch.D4;
+import static earpitch.Pitch.D5;
 import static earpitch.Pitch.E4;
+import static earpitch.Pitch.E5;
 import static earpitch.Pitch.F$4;
 import static earpitch.Pitch.F4;
 import static earpitch.Pitch.G$4;
@@ -24,6 +26,11 @@ import org.junit.Test;
 import earpitch.Scale.Pointer;
 
 public class ScaleTest {
+    @Test
+    public void aeolianScaleWithSharpNotes() {
+        assertThat(Scale.AEOLIAN.range(E4, 8), contains(E4, F$4, G4, A4, B4, C5, D5, E5));
+    }
+
     @Test
     public void determineMinorOrMajorStyle() {
         assertThat(Scale.IONIAN.isMajor(), is(true));
@@ -47,7 +54,16 @@ public class ScaleTest {
     }
 
     @Test
-    public void navigateByPointer() {
+    public void navigateByPointerAeolian() {
+        Pointer pointer = Scale.AEOLIAN.withBaseTone(E4);
+
+        assertThat(pointer.moveAndGet(0), is(E4));
+        assertThat(pointer.moveAndGet(-2), is(C4));
+        assertThat(pointer.moveAndGet(3), is(F$4));
+    }
+
+    @Test
+    public void navigateByPointerIonian() {
         Pointer pointer = Scale.IONIAN.withBaseTone(C4);
 
         assertThat(pointer.moveAndGet(0), is(C4));

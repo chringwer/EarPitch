@@ -13,7 +13,7 @@ import com.google.common.primitives.Chars;
 import earpitch.CircleOfFiths.Signature;
 
 public enum Scale {
-    IONIAN("Major", "TTsTTTsT"), AEOLIAN("Minor", "TsTTsTT");
+    IONIAN("Major", "TTsTTTs"), AEOLIAN("Minor", "TsTTsTT");
 
     public class Pointer {
         private Pitch base;
@@ -61,7 +61,7 @@ public enum Scale {
                     result += iterator.next();
                 } else {
                     if (!iterator.hasPrevious()) {
-                        iterator = intervals.listIterator(intervals.size() - 1);
+                        iterator = intervals.listIterator(intervals.size());
                     }
 
                     result -= iterator.previous();

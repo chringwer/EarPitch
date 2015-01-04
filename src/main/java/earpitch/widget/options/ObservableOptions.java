@@ -98,6 +98,7 @@ public class ObservableOptions implements Options {
         key.set(other.getKey());
         scale.set(other.getScale());
         length.set(other.getLength());
+        maxStepSize.set(other.getMaxStepSize());
         startWithBaseTone.set(other.getAlwaysStartWithBaseTone());
     }
 }

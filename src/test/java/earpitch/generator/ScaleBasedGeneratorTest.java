@@ -42,7 +42,7 @@ public class ScaleBasedGeneratorTest {
         when(random.nextInt(anyInt(), anyInt())).thenAnswer(AdditionalAnswers.returnsLastArg());
         when(pointer.moveAndGet(anyInt())).thenReturn(C4).thenThrow(new IndexOutOfBoundsException()).thenReturn(C4);
 
-        generator.generate(pointer, random, 5);
+        generator.generate(pointer, random, 5, true);
 
         verify(pointer, atLeastOnce()).moveAndGet(intThat(greaterThan(0)));
         verify(pointer, atLeastOnce()).moveAndGet(intThat(lessThan(0)));
@@ -50,7 +50,7 @@ public class ScaleBasedGeneratorTest {
 
     @Test
     public void makeSequenceWithGivenLength() {
-        assertThat(generator.generate(3).length, is(3));
+        assertThat(generator.generate(TestOptions.withLength(3)).length, is(3));
     }
 
     @Test
@@ -58,15 +58,14 @@ public class ScaleBasedGeneratorTest {
         when(random.nextInt(anyInt(), anyInt())).thenAnswer(AdditionalAnswers.returnsLastArg());
         when(pointer.moveAndGet(anyInt())).thenReturn(C4);
 
-        generator.generate(pointer, random, 5);
+        generator.generate(pointer, random, 5, true);
 
         verify(random, atLeast(4)).nextInt(anyInt(), anyInt());
     }
 
     @Test
     public void startWithBaseTone() {
-        generator.setFirstTone(Pitch.F4);
-        Pitch[] melody = generator.generate(3);
+        Pitch[] melody = generator.generate(TestOptions.withKey(Pitch.F4));
         assertThat(melody[0], is(Pitch.F4));
     }
 
@@ -74,6 +73,6 @@ public class ScaleBasedGeneratorTest {
     public void useScalePointerToGenerateSequence() {
         when(pointer.moveAndGet(anyInt())).thenReturn(C4).thenReturn(D4).thenReturn(E4);
 
-        assertThat(generator.generate(pointer, random, 3), contains(C4, D4, E4));
+        assertThat(generator.generate(pointer, random, 3, true), contains(C4, D4, E4));
     }
 }

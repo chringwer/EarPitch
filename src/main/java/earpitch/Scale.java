@@ -13,7 +13,7 @@ import com.google.common.primitives.Chars;
 import earpitch.CircleOfFiths.Signature;
 
 public enum Scale {
-    IONIAN("TTsTTTsT"), AEOLIAN("TsTTsTT");
+    IONIAN("Major", "TTsTTTsT"), AEOLIAN("Minor", "TsTTsTT");
 
     public class Pointer {
         private Pitch base;
@@ -26,10 +26,6 @@ public enum Scale {
             this.current = baseTone;
             signature = CircleOfFiths.getSignature(base, Scale.this);
             iterator = intervals.listIterator();
-        }
-
-        public Pitch withMidiNote(int midiNote) {
-            return withMatchingSignature(PITCH_BY_MIDINOTE.get(midiNote));
         }
 
         public Pitch moveAndGet(int steps) {
@@ -48,8 +44,8 @@ public enum Scale {
             return current;
         }
 
-        private Pitch withMatchingSignature(List<Pitch> candidates) {
-            return Iterables.tryFind(candidates, signature::matches).or(candidates.get(0));
+        public Pitch withMidiNote(int midiNote) {
+            return withMatchingSignature(PITCH_BY_MIDINOTE.get(midiNote));
         }
 
         private int toInterval(int steps) {
@@ -73,6 +69,10 @@ public enum Scale {
             }
             return result;
         }
+
+        private Pitch withMatchingSignature(List<Pitch> candidates) {
+            return Iterables.tryFind(candidates, signature::matches).or(candidates.get(0));
+        }
     }
 
     private static Map<Integer, List<Pitch>> createGroups() {
@@ -82,8 +82,10 @@ public enum Scale {
     private static Map<Integer, List<Pitch>> PITCH_BY_MIDINOTE = createGroups();
     private List<Integer> intervals;
     private String pattern;
+    private String label;
 
-    private Scale(String pattern) {
+    private Scale(String label, String pattern) {
+        this.label = label;
         this.pattern = pattern;
         this.intervals = parse(pattern);
     }
@@ -104,6 +106,11 @@ public enum Scale {
             result.add(pointer.moveAndGet(1));
         }
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return label;
     }
 
     public Pointer withBaseTone(Pitch baseTone) {

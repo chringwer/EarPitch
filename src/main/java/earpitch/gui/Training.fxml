@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Scene?>
-<?import javafx.scene.layout.BorderPane?>
 <?import earpitch.widget.staff.Staff?>
 <?import earpitch.widget.keyboard.Keyboard?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.HBox?>
 <?import earpitch.widget.counter.Counter?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.FlowPane?>
+<?import earpitch.widget.options.Options?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 
 <StackPane xmlns:fx="http://javafx.com/fxml">
 	<BorderPane>
@@ -41,10 +35,7 @@
 				<right>
 					<HBox styleClass="right" alignment="CENTER">
 						<Separator orientation="VERTICAL" />
-						<VBox id="options" alignment="TOP_LEFT" minWidth="250">
-							<CheckBox fx:id="fixedFirstToneCheckbox" selected="true"
-								text="Fixed first tone" />
-						</VBox>
+						<Options trainer="${controller.trainer}" onUpdate="#reset" alignment="TOP_LEFT" />
 					</HBox>
 				</right>
 			</BorderPane>
@@ -60,10 +51,11 @@
 			</VBox>
 		</bottom>
 	</BorderPane>
-	<FlowPane fx:id="alert" id="alert-background" alignment="CENTER" visible="false">
+	<FlowPane fx:id="alert" id="alert-background" alignment="CENTER"
+		visible="false">
 		<VBox styleClass="alert" alignment="CENTER">
 			<Label text="That was correct!" />
 			<Button text="Next Challenge?" onAction="#reset" />
-		</VBox>	
+		</VBox>
 	</FlowPane>
 </StackPane>

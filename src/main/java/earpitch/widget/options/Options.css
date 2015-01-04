@@ -1,0 +1,12 @@
+Options {
+	-fx-padding:1em;
+	-fx-hgap: 0.5em;
+	-fx-vgap: 1em;
+}
+
+Options Label.title {
+	-fx-padding:0.25em 0;
+	-fx-font-size: 10pt;
+	-fx-font-weight: bold;
+	
+}

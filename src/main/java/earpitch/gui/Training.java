@@ -7,17 +7,17 @@ import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 
 import javafx.application.Platform;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.util.Duration;
 import earpitch.Challenge;
 import earpitch.Pitch;
 import earpitch.Trainer;
-import earpitch.Trainer.Option;
 import earpitch.sound.Speaker;
 import earpitch.util.LayoutUtil;
 import earpitch.widget.counter.Counter;
@@ -27,7 +27,7 @@ import earpitch.widget.staff.Staff;
 
 public class Training implements Initializable {
     public static Parent createRoot() {
-        return createRoot(new Trainer(Option.FIXED_FIRST_TONE), new Speaker());
+        return createRoot(new Trainer(), new Speaker());
     }
 
     public static Parent createRoot(Trainer trainer, Speaker speaker) {
@@ -41,23 +41,26 @@ public class Training implements Initializable {
     private @FXML Button resetButton;
     private @FXML Counter okCounter;
     private @FXML Counter failCounter;
-    private @FXML CheckBox fixedFirstToneCheckbox;
     private @FXML Node alert;
 
     private Speaker speaker;
-    private Trainer trainer;
+    private ObjectProperty<Trainer> trainer;
     private Challenge challenge;
     private List<Button> buttons;
 
     public Training(Trainer trainer, Speaker speaker) {
-        this.trainer = trainer;
+        this.trainer = new SimpleObjectProperty<Trainer>(trainer);
         this.speaker = speaker;
+    }
+
+    public Trainer getTrainer() {
+        return trainer.get();
     }
 
     @FXML
     public void hint() {
         if (challenge.isSolved()) {
-            challenge = trainer.nextChallenge();
+            challenge = getTrainer().nextChallenge();
         }
 
         process(challenge.getExpected());
@@ -65,11 +68,6 @@ public class Training implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        fixedFirstToneCheckbox.selectedProperty().addListener((e, oldVal, newVal) -> {
-            trainer.set(Option.FIXED_FIRST_TONE, newVal);
-            reset();
-        });
-
         keyboard.addEventHandler(NoteEvent.PLAYED, note -> {
             CompletableFuture.runAsync(() -> speaker.play(note.getPitch()));
             process(note.getPitch());
@@ -92,7 +90,7 @@ public class Training implements Initializable {
 
         if (matched) {
             okCounter.increment();
-            staff.addNote(trainer.adjustToScale(pitch));
+            staff.addNote(getTrainer().adjustToScale(pitch));
         } else {
             failCounter.increment();
         }
@@ -112,7 +110,7 @@ public class Training implements Initializable {
 
     @FXML
     public void reset() {
-        challenge = trainer.nextChallenge();
+        challenge = getTrainer().nextChallenge();
         buttons.forEach(button -> button.setDisable(false));
         alert.setVisible(false);
         okCounter.reset();

@@ -6,6 +6,7 @@ import java.net.URL;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
@@ -19,6 +20,10 @@ public class LayoutUtil {
         URL fxml = controller.getClass().getResource(fxmlFile);
         FXMLLoader loader = new FXMLLoader(fxml);
         loader.setController(controller);
+
+        if (controller instanceof Node) {
+            loader.setRoot(controller);
+        }
 
         try {
             T node = loader.load();

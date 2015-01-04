@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Scene?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.CheckBox?>
+
+<fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml">
+
+	<VBox GridPane.columnIndex="0" GridPane.rowIndex="0"
+		GridPane.columnSpan="2">
+		<Label text="Scale" styleClass="title" />
+		<Separator />
+	</VBox>
+
+	<ChoiceBox fx:id="key" GridPane.columnIndex="0"
+		GridPane.rowIndex="1" />
+
+	<ChoiceBox fx:id="scale" GridPane.columnIndex="1"
+		GridPane.rowIndex="1" />
+
+	<CheckBox fx:id="alwaysStartWithBaseTone" text="Always start with base tone"
+		GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="2" />
+
+</fx:root>

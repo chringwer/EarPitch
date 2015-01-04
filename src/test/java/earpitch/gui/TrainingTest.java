@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.loadui.testfx.Assertions.assertNodeExists;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -20,6 +21,7 @@ import org.loadui.testfx.categories.TestFX;
 import org.loadui.testfx.utils.TestUtils;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import earpitch.Challenge;
@@ -72,7 +74,7 @@ public class TrainingTest extends GuiTest {
     }
 
     @Test
-    public void showAlertAfterChallengeIsSolved() {
+    public void whenNextChallengeIsAccepted() {
         when(challenge.advanceIfMatches(Pitch.A4)).thenReturn(true);
         when(challenge.isSolved()).thenReturn(true);
 
@@ -88,6 +90,15 @@ public class TrainingTest extends GuiTest {
         });
 
         assertNodeExists(hasText("Next Challenge?"));
+
+        Mockito.reset(trainer);
+        Challenge nextChallenge = mock(Challenge.class);
+        when(trainer.nextChallenge()).thenReturn(nextChallenge);
+
+        click("#continueButton");
+
+        verify(trainer).nextChallenge();
+        verify(nextChallenge).outputTo(speaker);
     }
 
     @Test

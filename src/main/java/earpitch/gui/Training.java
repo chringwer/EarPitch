@@ -79,6 +79,12 @@ public class Training implements Initializable {
     }
 
     @FXML
+    public void nextChallenge() {
+        reset();
+        play();
+    }
+
+    @FXML
     public void play() {
         playButton.setDisable(true);
         CompletableFuture.runAsync(() -> challenge.outputTo(speaker))
@@ -116,6 +122,5 @@ public class Training implements Initializable {
         okCounter.reset();
         failCounter.reset();
         staff.clear();
-        play();
     }
 }

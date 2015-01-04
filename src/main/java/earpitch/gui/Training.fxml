@@ -55,7 +55,7 @@
 		visible="false">
 		<VBox styleClass="alert" alignment="CENTER">
 			<Label text="That was correct!" />
-			<Button text="Next Challenge?" onAction="#reset" />
+			<Button id="continueButton" text="Next Challenge?" onAction="#nextChallenge" />
 		</VBox>
 	</FlowPane>
 </StackPane>

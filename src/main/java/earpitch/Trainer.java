@@ -3,8 +3,6 @@ package earpitch;
 import earpitch.generator.ScaleBasedGenerator;
 
 public class Trainer {
-    private static final Pitch BASE_TONE = Pitch.C5;
-
     private Generator.Options options;
     private Generator generator;
 
@@ -18,7 +16,7 @@ public class Trainer {
     }
 
     public Pitch adjustToScale(Pitch pitch) {
-        return options.getScale().withBaseTone(BASE_TONE).withMidiNote(pitch.toMidiNote());
+        return options.getScale().withBaseTone(options.getKey()).withMidiNote(pitch.toMidiNote());
     }
 
     public Generator.Options getOptions() {

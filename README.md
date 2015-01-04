@@ -7,7 +7,11 @@ This app is rather meant as an exercise for me to play with Java 8 and JavaFX bu
 
 So if anyone is interested in contributing or would like to see a particular feature, please contact me.
 
-## Run application
+## Download 
+
+You can download the latest release from [here](https://github.com/chringwer/EarPitch/releases/latest)
+
+## Build and run from source code
 
 You need to install Oracle JDK 8 and Maven in order build and run the app from sources. The following command will take care of the rest.
 

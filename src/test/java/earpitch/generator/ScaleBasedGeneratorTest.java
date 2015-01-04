@@ -38,11 +38,18 @@ public class ScaleBasedGeneratorTest {
     }
 
     @Test
+    public void intervalIsBoundToMaxStepSize() {
+        generator.generate(pointer, random, TestOptions.withMaxStepSize(1));
+
+        verify(random, atLeastOnce()).nextInt(-1, 1);
+    }
+
+    @Test
     public void invertIntervalIfPointerIsOutOfBounds() {
         when(random.nextInt(anyInt(), anyInt())).thenAnswer(AdditionalAnswers.returnsLastArg());
         when(pointer.moveAndGet(anyInt())).thenReturn(C4).thenThrow(new IndexOutOfBoundsException()).thenReturn(C4);
 
-        generator.generate(pointer, random, 5, true);
+        generator.generate(pointer, random, TestOptions.withLength(5));
 
         verify(pointer, atLeastOnce()).moveAndGet(intThat(greaterThan(0)));
         verify(pointer, atLeastOnce()).moveAndGet(intThat(lessThan(0)));
@@ -58,7 +65,7 @@ public class ScaleBasedGeneratorTest {
         when(random.nextInt(anyInt(), anyInt())).thenAnswer(AdditionalAnswers.returnsLastArg());
         when(pointer.moveAndGet(anyInt())).thenReturn(C4);
 
-        generator.generate(pointer, random, 5, true);
+        generator.generate(pointer, random, TestOptions.withLength(5));
 
         verify(random, atLeast(4)).nextInt(anyInt(), anyInt());
     }
@@ -73,6 +80,6 @@ public class ScaleBasedGeneratorTest {
     public void useScalePointerToGenerateSequence() {
         when(pointer.moveAndGet(anyInt())).thenReturn(C4).thenReturn(D4).thenReturn(E4);
 
-        assertThat(generator.generate(pointer, random, 3, true), contains(C4, D4, E4));
+        assertThat(generator.generate(pointer, random, TestOptions.withLength(3)), contains(C4, D4, E4));
     }
 }

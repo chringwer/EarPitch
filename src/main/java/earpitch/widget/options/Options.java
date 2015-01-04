@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 import earpitch.Generator;
@@ -26,6 +27,7 @@ import earpitch.util.LayoutUtil;
 public class Options extends GridPane implements Initializable {
     private @FXML ChoiceBox<Pitch> key;
     private @FXML ChoiceBox<Scale> scale;
+    private @FXML Slider difficulty;
     private @FXML CheckBox alwaysStartWithBaseTone;
     private ObservableOptions options;
 
@@ -66,6 +68,8 @@ public class Options extends GridPane implements Initializable {
                 options.dirtyProperty().set(false);
             }
         });
+
+        difficulty.valueProperty().bindBidirectional(options.maxStepSizeProperty());
 
         alwaysStartWithBaseTone.selectedProperty().bindBidirectional(options.alwaysStartWithBaseToneProperty());
     }

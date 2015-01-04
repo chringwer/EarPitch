@@ -10,28 +10,26 @@ import earpitch.Pitch;
 import earpitch.Scale.Pointer;
 
 public class ScaleBasedGenerator implements Generator {
-    private int maxStepSize = 8;
-
     @Override
     public Pitch[] generate(Options options) {
         RandomDataGenerator random = new RandomDataGenerator();
         Pointer pointer = options.getScale().withBaseTone(options.getKey());
-        List<Pitch> result = generate(pointer, random, options.getLength(), options.getAlwaysStartWithBaseTone());
+        List<Pitch> result = generate(pointer, random, options);
 
         return result.toArray(new Pitch[result.size()]);
     }
 
-    List<Pitch> generate(Pointer pointer, RandomDataGenerator random, int length, boolean alwaysStartWithBaseTone) {
-        List<Pitch> result = new ArrayList<Pitch>(length);
+    List<Pitch> generate(Pointer pointer, RandomDataGenerator random, Options options) {
+        List<Pitch> result = new ArrayList<Pitch>(options.getLength());
 
         Pitch baseTone = pointer.moveAndGet(0);
 
-        for (int i = 0; i < length; i++) {
-            result.add(next(pointer, random.nextInt(-maxStepSize, maxStepSize)));
+        for (int i = 0; i < options.getLength(); i++) {
+            result.add(next(pointer, random.nextInt(-options.getMaxStepSize(), options.getMaxStepSize())));
         }
 
-        if (alwaysStartWithBaseTone) {
-            result.remove(length - 1);
+        if (options.getAlwaysStartWithBaseTone()) {
+            result.remove(options.getLength() - 1);
             result.add(0, baseTone);
         }
 

@@ -19,6 +19,7 @@ public class ObservableOptions implements Options {
     private ObjectProperty<Pitch> key;
     private ObjectProperty<Scale> scale;
     private IntegerProperty length;
+    private IntegerProperty maxStepSize;
     private BooleanProperty startWithBaseTone;
 
     public ObservableOptions(Options defaults) {
@@ -32,6 +33,9 @@ public class ObservableOptions implements Options {
 
         length = new SimpleIntegerProperty(defaults.getLength());
         length.addListener((o) -> dirty.set(true));
+
+        maxStepSize = new SimpleIntegerProperty(defaults.getMaxStepSize());
+        maxStepSize.addListener((o) -> dirty.set(true));
 
         startWithBaseTone = new SimpleBooleanProperty(defaults.getAlwaysStartWithBaseTone());
         startWithBaseTone.addListener((o) -> dirty.set(true));
@@ -47,22 +51,27 @@ public class ObservableOptions implements Options {
 
     @Override
     public boolean getAlwaysStartWithBaseTone() {
-        return startWithBaseTone.get();
+        return alwaysStartWithBaseToneProperty().get();
     }
 
     @Override
     public Pitch getKey() {
-        return key.get();
+        return keyProperty().get();
     }
 
     @Override
     public int getLength() {
-        return length.get();
+        return lengthProperty().get();
+    }
+
+    @Override
+    public int getMaxStepSize() {
+        return maxStepSizeProperty().get();
     }
 
     @Override
     public Scale getScale() {
-        return scale.get();
+        return scaleProperty().get();
     }
 
     public ObjectProperty<Pitch> keyProperty() {
@@ -71,6 +80,10 @@ public class ObservableOptions implements Options {
 
     public IntegerProperty lengthProperty() {
         return length;
+    }
+
+    public IntegerProperty maxStepSizeProperty() {
+        return maxStepSize;
     }
 
     public ObjectProperty<Scale> scaleProperty() {

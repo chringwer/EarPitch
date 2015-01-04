@@ -18,16 +18,25 @@ public class TestOptions implements Generator.Options {
         return options;
     }
 
+    public static Options withMaxStepSize(int maxStepSize) {
+        TestOptions options = new TestOptions(Generator.DEFAULT_OPTIONS);
+        options.maxStepSize = maxStepSize;
+        return options;
+    }
+
     private boolean startWithBaseTone;
     private Pitch key;
     private Scale scale;
     private int length;
+
+    private int maxStepSize;
 
     private TestOptions(Generator.Options defaults) {
         this.startWithBaseTone = defaults.getAlwaysStartWithBaseTone();
         this.key = defaults.getKey();
         this.scale = defaults.getScale();
         this.length = defaults.getLength();
+        this.maxStepSize = defaults.getMaxStepSize();
     }
 
     @Override
@@ -43,6 +52,11 @@ public class TestOptions implements Generator.Options {
     @Override
     public int getLength() {
         return length;
+    }
+
+    @Override
+    public int getMaxStepSize() {
+        return maxStepSize;
     }
 
     @Override

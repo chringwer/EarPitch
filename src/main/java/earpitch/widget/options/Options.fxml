@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Slider?>
 
 <fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml">
 
@@ -25,5 +26,15 @@
 
 	<CheckBox fx:id="alwaysStartWithBaseTone" text="Always start with base tone"
 		GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="2" />
+
+	<VBox GridPane.columnIndex="0" GridPane.rowIndex="3"
+		GridPane.columnSpan="2">
+		<Label text="Difficulty" styleClass="title" />
+		<Separator />
+	</VBox>
+
+	<Slider fx:id="difficulty" blockIncrement="1" min="1" snapToTicks="true"
+		showTickMarks="true" minorTickCount="0" majorTickUnit="1" max="8"
+		GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="2" />
 
 </fx:root>

@@ -8,6 +8,8 @@ public interface Generator {
 
         int getLength();
 
+        int getMaxStepSize();
+
         Scale getScale();
     }
 
@@ -25,6 +27,11 @@ public interface Generator {
         @Override
         public int getLength() {
             return 4;
+        }
+
+        @Override
+        public int getMaxStepSize() {
+            return 8;
         }
 
         @Override
